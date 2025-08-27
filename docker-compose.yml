@@ -1,0 +1,19 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: python-uv-app
+    stdin_open: true
+    tty: true
+    ports:
+      - "8000:8000"
+      - "8081:8081"
+    volumes:
+      - ./app:/app
+      - ./requirements.txt:/app/requirements.txt
+      - ./startup.sh:/app/startup.sh
+      - persistent_data:/persistent_data
+    command: sh /app/startup.sh
+volumes:
+  persistent_data:
