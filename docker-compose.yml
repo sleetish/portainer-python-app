@@ -6,14 +6,22 @@ services:
     container_name: python-uv-app
     stdin_open: true
     tty: true
+
     ports:
-      - "8000:8000"
-      - "8081:8081"
+      # Use environment variables for ports.
+      # The :- syntax provides a default value if the variable isn't set.
+      # You can set these in the Portainer UI when deploying the stack.
+      - "${WEB_PORT:-8000}:8000"
+      - "${MCP_PORT:-8081}:8081"
+
+    # The volumes section is now much simpler. We only need a volume
+    # for data that must persist *between* container deployments.
+    # The application code itself is now part of the image.
     volumes:
-      - ./app:/app
-      - ./requirements.txt:/app/requirements.txt
-      - ./startup.sh:/app/startup.sh
       - persistent_data:/persistent_data
+
+    # The command is now to run the script we created inside the image.
     command: sh /app/startup.sh
+
 volumes:
   persistent_data:
