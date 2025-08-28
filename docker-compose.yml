@@ -13,6 +13,7 @@ services:
       # You can set these in the Portainer UI when deploying the stack.
       - "8980:8000"
       - "8981:8081"
+      - "8922:22"
 
     # The volumes section is now much simpler. We only need a volume
     # for data that must persist *between* container deployments.
